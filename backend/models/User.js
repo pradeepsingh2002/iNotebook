@@ -7,7 +7,8 @@ name:{
 },
 email:{
     type: String,
-    requried: true
+    requried: true,
+    unique:true
 },
 password:{
     type: String,
@@ -18,4 +19,6 @@ date:{
     default: Date.now
 }
   });
-  module.exports=mongoose.model('user',UserSchema)
+  const User=mongoose.model('user',UserSchema);
+  User.createIndexes();
+  module.exports = User;
