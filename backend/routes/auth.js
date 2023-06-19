@@ -4,8 +4,9 @@ const router= express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+let fetchuser=require('../middleware/fetchuser');
 
-const JWT_SECRET='harry is a good boy'
+const JWT_SECRET='harryisagoodboy'
 //Create a user using :post "/api/auth/createuser": no login  required 
 router.post('/createuser',[
     body('email','enter a valid email').isEmail(),
@@ -43,7 +44,7 @@ const data={
 }
 const authtoken=jwt.sign(data,JWT_SECRET)
 
-res.json(authtoken)
+res.json({authtoken})
 
 }catch (error) {
     console.log(error.message);
@@ -51,5 +52,61 @@ res.json(authtoken)
     }
 
 
+})
+//Authentication a user using :post "/api/auth/loginuser": no login  required 
+router.post('/loginuser',[
+    body('email','enter a valid email').isEmail(),
+    body('password','Password can not be blank').exists(),
+ 
+],
+async (req,res)=>{
+    // If there are errors then return bad request and the errors
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()})
+    }
+    // check wheater the user with this email already exits
+    const {email,password}=req.body;
+    try {
+        
+     
+    let user=await User.findOne({email});
+    if (!user){
+        return res.status(400).json('please try to login with correct credential')
+    }
+    const passwordCompare=await bcrypt.compare(password ,user.password)
+    if (!passwordCompare){
+        return res.status(400).json('please try to login with correct credential')
+    }
+   
+const data={
+    user:{
+        id:user.id
+    }
+}
+const authtoken=jwt.sign(data,JWT_SECRET)
+
+res.json({authtoken})
+
+}catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal server error")    
+    }
+})
+
+
+//Get loggedin user detail :post "/api/auth/getuser":  login  required 
+router.post('/getuser',fetchuser,
+async (req,res)=>{
+    // If there are errors then return bad request and the errors
+   try {
+  userId=req.user.id;
+    const user=await User.findById(userId).select('-password');
+    res.send(user);
+
+   } catch (error) {
+    console.log(error.message);
+    res.status(500).send("internal server error")
+   }
 })
 module.exports = router;
