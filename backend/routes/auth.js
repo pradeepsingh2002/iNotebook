@@ -60,6 +60,7 @@ router.post('/loginuser',[
  
 ],
 async (req,res)=>{
+    let success=false;
     // If there are errors then return bad request and the errors
     const errors=validationResult(req);
     if(!errors.isEmpty()){
@@ -85,8 +86,8 @@ const data={
     }
 }
 const authtoken=jwt.sign(data,JWT_SECRET)
-
-res.json({authtoken})
+success=true;
+res.json({success,authtoken})
 
 }catch (error) {
     console.log(error.message);

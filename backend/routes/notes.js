@@ -7,7 +7,7 @@ const fetchuser=require("../middleware/fetchuser");
 //Router 1: Get all notes using: GET "/api/notes/fetchallnotes", Login Required
 router.get('/fetchallnotes',fetchuser, async (req,res)=>{
     try {
-       const notes=await Notes.find({user:req.user.id});
+       const notes=await Note.find({user:req.user.id});
 res.json(notes); 
     } catch (error) {
         console.log(error.message);
@@ -16,7 +16,7 @@ res.json(notes);
 
 })
 //Router 2:  Add new notes using: GET "/api/notes/addnotes", Login Required
-router.get('/addnote',fetchuser,[
+router.post('/addnote',fetchuser,[
     body('title','enter a valid title').isLength({min:3}),
     body('description','Description must have alleast 5 characters').isLength({min:5}),
 ],async (req,res)=>{
