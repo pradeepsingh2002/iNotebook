@@ -14,7 +14,7 @@ const getNotes=async ()=>{
   
     headers: {
       "Content-Type": "application/json",
-      "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5MDFhMGRhMTdmNmY3NmJjNjgyMDhlIn0sImlhdCI6MTY4NzE2Njk3OX0.TU114uoufxCeGvz4arEwZ9eCyEZ4NquEPE6aS9xEz-A"
+      "auth-token":localStorage.getItem('token')
       
     },
   });
@@ -31,7 +31,7 @@ const addNote=async (title,description,tag)=>{
   
     headers: {
       "Content-Type": "application/json",
-      "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5MDFhMGRhMTdmNmY3NmJjNjgyMDhlIn0sImlhdCI6MTY4NzE2Njk3OX0.TU114uoufxCeGvz4arEwZ9eCyEZ4NquEPE6aS9xEz-A"
+      "auth-token":localStorage.getItem('token')
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
    
@@ -49,7 +49,7 @@ const deleteNote=async (id)=>{
   
     headers: {
       "Content-Type": "application/json",
-      "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5MDFhMGRhMTdmNmY3NmJjNjgyMDhlIn0sImlhdCI6MTY4NzE2Njk3OX0.TU114uoufxCeGvz4arEwZ9eCyEZ4NquEPE6aS9xEz-A"
+      "auth-token":localStorage.getItem("token")
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
    
@@ -70,7 +70,7 @@ const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
 
   headers: {
     "Content-Type": "application/json",
-    "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5MDFhMGRhMTdmNmY3NmJjNjgyMDhlIn0sImlhdCI6MTY4NzE2Njk3OX0.TU114uoufxCeGvz4arEwZ9eCyEZ4NquEPE6aS9xEz-A"
+    "auth-token":localStorage.getItem('token')
     // 'Content-Type': 'application/x-www-form-urlencoded',
   },
  
